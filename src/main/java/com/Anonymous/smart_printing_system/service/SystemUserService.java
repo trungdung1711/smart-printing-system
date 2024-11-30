@@ -1,10 +1,12 @@
 package com.Anonymous.smart_printing_system.service;
 
 
+import com.Anonymous.smart_printing_system.SystemUserInformationResponseDto;
 import com.Anonymous.smart_printing_system.dto.SignUpRequestDto;
 import com.Anonymous.smart_printing_system.dto.SignUpResponseDto;
 import com.Anonymous.smart_printing_system.dto.mapper.SystemUserMapper;
 import com.Anonymous.smart_printing_system.exception.UserAlreadyExistsException;
+import com.Anonymous.smart_printing_system.exception.UserNotFoundException;
 import com.Anonymous.smart_printing_system.model.Role;
 import com.Anonymous.smart_printing_system.model.SystemUser;
 import com.Anonymous.smart_printing_system.model.eenum.RoleEnum;
@@ -70,5 +72,12 @@ public class SystemUserService
 
         SystemUser savedWebUser = systemUserRepository.save(systemUser);
         return systemUserMapper.toDto(savedWebUser);
+    }
+
+
+    public SystemUserInformationResponseDto getUserInformation(Long id)
+    {
+        return systemUserMapper
+                .toInformationDto(systemUserRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
     }
 }

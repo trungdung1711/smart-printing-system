@@ -62,12 +62,12 @@ public class AuthController
     }
 
 
-    @PostMapping("sign-up")
-    public ResponseEntity<SignUpResponseDto> registerNewWebUser(@RequestBody SignUpRequestDto signUpRequestDto)
-    {
-        SignUpResponseDto signUpResponseDto = systemUserService.createStudent(signUpRequestDto);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(signUpResponseDto);
-    }
+//    @PostMapping("sign-up")
+//    public ResponseEntity<SignUpResponseDto> registerNewWebUser(@RequestBody SignUpRequestDto signUpRequestDto)
+//    {
+//        SignUpResponseDto signUpResponseDto = systemUserService.createStudent(signUpRequestDto);
+//        return ResponseEntity
+//                .status(HttpStatus.CREATED)
+//                .body(signUpResponseDto);
+//    }
 }
