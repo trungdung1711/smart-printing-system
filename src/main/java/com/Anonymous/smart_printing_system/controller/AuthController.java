@@ -3,9 +3,12 @@ package com.Anonymous.smart_printing_system.controller;
 
 import com.Anonymous.smart_printing_system.dto.LogInRequestDto;
 import com.Anonymous.smart_printing_system.dto.LogInResponseDto;
+import com.Anonymous.smart_printing_system.dto.SignUpRequestDto;
+import com.Anonymous.smart_printing_system.dto.SignUpResponseDto;
 import com.Anonymous.smart_printing_system.model.SystemUser;
 import com.Anonymous.smart_printing_system.security.model.SystemUserDetails;
 import com.Anonymous.smart_printing_system.security.util.JwtUtil;
+import com.Anonymous.smart_printing_system.service.SystemUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +31,7 @@ public class AuthController
 
 
     private final JwtUtil jwtUtil;
+    private final SystemUserService systemUserService;
 
 
     @PostMapping("login")
@@ -55,5 +59,15 @@ public class AuthController
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(logInResponseDto);
+    }
+
+
+    @PostMapping("sign-up")
+    public ResponseEntity<SignUpResponseDto> registerNewWebUser(@RequestBody SignUpRequestDto signUpRequestDto)
+    {
+        SignUpResponseDto signUpResponseDto = systemUserService.createStudent(signUpRequestDto);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(signUpResponseDto);
     }
 }

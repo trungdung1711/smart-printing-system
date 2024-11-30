@@ -52,4 +52,23 @@ public class SystemUserService
         SystemUser savedWebUser = systemUserRepository.save(systemUser);
         return systemUserMapper.toDto(savedWebUser);
     }
+
+
+    @Transactional
+    public SignUpResponseDto createStudent(SignUpRequestDto signUpRequestDto)
+    {
+        if (systemUserRepository.existsByEmail(signUpRequestDto.getEmail()))
+        {
+            throw new UserAlreadyExistsException("User already exists");
+        }
+
+        SystemUser systemUser = systemUserMapper.toEntity(signUpRequestDto);
+        systemUser.setPassword(passwordEncoder.encode(systemUser.getPassword()));
+
+        Role roleCustomer = roleRepository.findByName(RoleEnum.ROLE_STUDENT);
+        systemUser.getRoles().add(roleCustomer);
+
+        SystemUser savedWebUser = systemUserRepository.save(systemUser);
+        return systemUserMapper.toDto(savedWebUser);
+    }
 }
