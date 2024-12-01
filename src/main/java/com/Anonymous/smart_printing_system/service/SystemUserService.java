@@ -1,7 +1,7 @@
 package com.Anonymous.smart_printing_system.service;
 
 
-import com.Anonymous.smart_printing_system.SystemUserInformationResponseDto;
+import com.Anonymous.smart_printing_system.dto.SystemUserInformationResponseDto;
 import com.Anonymous.smart_printing_system.dto.SignUpRequestDto;
 import com.Anonymous.smart_printing_system.dto.SignUpResponseDto;
 import com.Anonymous.smart_printing_system.dto.mapper.SystemUserMapper;

@@ -1,7 +1,9 @@
-package com.Anonymous.smart_printing_system.dto;
+package com.Anonymous.smart_printing_system.controller;
 
 
-import com.Anonymous.smart_printing_system.SystemUserInformationResponseDto;
+import com.Anonymous.smart_printing_system.dto.SignUpRequestDto;
+import com.Anonymous.smart_printing_system.dto.SignUpResponseDto;
+import com.Anonymous.smart_printing_system.dto.SystemUserInformationResponseDto;
 import com.Anonymous.smart_printing_system.service.SystemUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

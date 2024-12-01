@@ -1,4 +1,4 @@
-package com.Anonymous.smart_printing_system;
+package com.Anonymous.smart_printing_system.dto;
 
 import com.Anonymous.smart_printing_system.model.eenum.SexEnum;
 import lombok.Value;
