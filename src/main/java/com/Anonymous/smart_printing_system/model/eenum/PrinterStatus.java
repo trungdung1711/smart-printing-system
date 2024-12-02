@@ -1,6 +1,6 @@
 package com.Anonymous.smart_printing_system.model.eenum;
 
-public enum Status
+public enum PrinterStatus
 {
     ON,
     OFF,

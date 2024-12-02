@@ -3,6 +3,8 @@ package com.Anonymous.smart_printing_system.model;
 import com.Anonymous.smart_printing_system.model.eenum.SexEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -11,9 +13,12 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @Entity
 @Table(name = "user")
-public class SystemUser
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
+public abstract class SystemUser
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

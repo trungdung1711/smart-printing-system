@@ -41,7 +41,7 @@ public class SystemUserService
         {
             throw new UserAlreadyExistsException("The email is already used");
         }
-        SystemUser systemUser = systemUserMapper.toEntity(signUpRequestDto);
+        SystemUser systemUser = systemUserMapper.toSpsoEntity(signUpRequestDto);
         systemUser.setPassword(passwordEncoder.encode(systemUser.getPassword()));
 
         Role roleSPSO = roleRepository
@@ -64,11 +64,11 @@ public class SystemUserService
             throw new UserAlreadyExistsException("User already exists");
         }
 
-        SystemUser systemUser = systemUserMapper.toEntity(signUpRequestDto);
+        SystemUser systemUser = systemUserMapper.toStudentEntity(signUpRequestDto);
         systemUser.setPassword(passwordEncoder.encode(systemUser.getPassword()));
 
-        Role roleCustomer = roleRepository.findByName(RoleEnum.ROLE_STUDENT);
-        systemUser.getRoles().add(roleCustomer);
+        Role roleStudent = roleRepository.findByName(RoleEnum.ROLE_STUDENT);
+        systemUser.getRoles().add(roleStudent);
 
         SystemUser savedWebUser = systemUserRepository.save(systemUser);
         return systemUserMapper.toDto(savedWebUser);

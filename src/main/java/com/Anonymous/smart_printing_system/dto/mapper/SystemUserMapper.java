@@ -4,6 +4,8 @@ package com.Anonymous.smart_printing_system.dto.mapper;
 import com.Anonymous.smart_printing_system.dto.SystemUserInformationResponseDto;
 import com.Anonymous.smart_printing_system.dto.SignUpRequestDto;
 import com.Anonymous.smart_printing_system.dto.SignUpResponseDto;
+import com.Anonymous.smart_printing_system.model.Spso;
+import com.Anonymous.smart_printing_system.model.Student;
 import com.Anonymous.smart_printing_system.model.SystemUser;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
@@ -13,11 +15,11 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring")
 public interface SystemUserMapper
 {
-    SystemUser toEntity(SignUpRequestDto signUpRequestDto);
+    Student toStudentEntity(SignUpRequestDto signUpRequestDto);
 
     SignUpResponseDto toDto(SystemUser systemUser);
 
-    SystemUser toEntity(SystemUserInformationResponseDto systemUserInformationResponseDto);
+    Spso toSpsoEntity(SignUpRequestDto signUpRequestDto);
 
     SystemUserInformationResponseDto toInformationDto(SystemUser systemUser);
 

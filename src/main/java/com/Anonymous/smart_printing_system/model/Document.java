@@ -41,4 +41,7 @@ public class Document
     @Column(name = "page_number", nullable = false)
     private Long pageNumber;
 
+    @OneToOne(optional = false)
+    @JoinColumn(name = "printing_log_id", nullable = false)
+    private PrintingLog printingLog;
 }
