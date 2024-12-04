@@ -11,9 +11,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +40,20 @@ public class GlobalExceptionHandler
     {
         String handlerName = "GlobalExceptionHandler";
         loggerName = serverName + ":" + handlerName;
+    }
+
+
+    @ExceptionHandler(PaperNotEnough.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handlePaperNotEnoughException(PaperNotEnough paperNotEnough)
+    {
+        return ApiError
+                .builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(paperNotEnough.getMessage())
+                .error("PAPER_NOT_ENOUGH")
+                .build();
     }
 
 

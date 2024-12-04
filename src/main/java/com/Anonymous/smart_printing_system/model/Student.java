@@ -31,5 +31,4 @@ public class Student extends SystemUser
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Order> orders = new LinkedHashSet<>();
-
 }
