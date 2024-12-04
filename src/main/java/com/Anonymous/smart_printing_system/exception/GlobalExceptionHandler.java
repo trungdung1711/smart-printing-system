@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -43,15 +44,15 @@ public class GlobalExceptionHandler
     }
 
 
-    @ExceptionHandler(PaperNotEnough.class)
+    @ExceptionHandler(PaperNotEnoughException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError handlePaperNotEnoughException(PaperNotEnough paperNotEnough)
+    public ApiError handlePaperNotEnoughException(PaperNotEnoughException paperNotEnoughException)
     {
         return ApiError
                 .builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
-                .message(paperNotEnough.getMessage())
+                .message(paperNotEnoughException.getMessage())
                 .error("PAPER_NOT_ENOUGH")
                 .build();
     }

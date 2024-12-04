@@ -4,7 +4,7 @@ package com.Anonymous.smart_printing_system.service;
 import com.Anonymous.smart_printing_system.dto.printing.PrintingLogGetAllPrintingLogsDto;
 import com.Anonymous.smart_printing_system.dto.printing.PrintingLogPrintRequestDto;
 import com.Anonymous.smart_printing_system.dto.mapper.PrintingLogMapper;
-import com.Anonymous.smart_printing_system.exception.PaperNotEnough;
+import com.Anonymous.smart_printing_system.exception.PaperNotEnoughException;
 import com.Anonymous.smart_printing_system.exception.UserNotFoundException;
 import com.Anonymous.smart_printing_system.model.*;
 import com.Anonymous.smart_printing_system.model.eenum.FileType;
@@ -55,10 +55,12 @@ public class PrintingLogService
         Check the number of pages
          */
         Student student = (Student)systemUser;
+        Long usedPage = student.getUsedPage();
+        Long remainedPage = student.getStudentNumRemained();
         long requiredPage = (printingLogPrintRequestDto.getDocument().getEnd() - printingLogPrintRequestDto.getDocument().getStart() + 1) * printingLogPrintRequestDto.getNumberOfCopy();
         if (requiredPage > student.getStudentNumRemained())
         {
-            throw new PaperNotEnough();
+            throw new PaperNotEnoughException();
         }
         /*
         Map to the entity
@@ -97,6 +99,10 @@ public class PrintingLogService
         /*
         Map the student to this PrintingLog
          */
+        student
+                .setUsedPage(usedPage + printingLog.getNumberOfCopy()*printingLog.getDocument().getPageNumber());
+        student
+                .setStudentNumRemained(remainedPage - printingLog.getNumberOfCopy()*printingLog.getDocument().getPageNumber());
         /*
         Set both sides of the PrintingLog and the Student
          */

@@ -44,16 +44,8 @@ public class DocumentProcessor
                 printingLog.setLogStartTime(LocalDateTime.now());
                 printingLog.setLogEndTime(LocalDateTime.now().plusMinutes(5));
 
-                Student student = printingLog.getStudent();
-
-                Long usedPage = student.getUsedPage();
-                Long remainedPage = student.getStudentNumRemained();
                 Long usageCount = printingLog.getPrinter().getUsageCount();
 
-                student
-                        .setUsedPage(usedPage + printingLog.getNumberOfCopy()*printingLog.getDocument().getPageNumber());
-                student
-                        .setStudentNumRemained(remainedPage - printingLog.getNumberOfCopy()*printingLog.getDocument().getPageNumber());
                 printingLog.getPrinter().setUsageCount(usageCount + 1);
             }
         }

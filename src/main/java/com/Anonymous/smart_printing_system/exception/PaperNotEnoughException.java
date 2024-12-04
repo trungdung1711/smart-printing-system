@@ -1,10 +1,10 @@
 package com.Anonymous.smart_printing_system.exception;
 
 
-public class PaperNotEnough extends
+public class PaperNotEnoughException extends
         RuntimeException
 {
-    public PaperNotEnough()
+    public PaperNotEnoughException()
     {
         super("Paper not enough");
     }

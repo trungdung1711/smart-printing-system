@@ -81,7 +81,7 @@ public class SecurityConfiguration
                                 .hasAnyRole("STUDENT", "ADMIN", "SPSO")
 
                                 .requestMatchers("/file/**")
-                                .hasAnyRole("STUDENT", "ADMIN", "SPSO")
+                                .permitAll()
 
                                 .anyRequest()
                                 .authenticated()
