@@ -37,7 +37,7 @@ public class FileService
         Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
 
         // Return public path
-        return "/public/file/" + fileName;
+        return "/file/" + fileName;
     }
 
     private String sanitizeFileName(String originalFileName)

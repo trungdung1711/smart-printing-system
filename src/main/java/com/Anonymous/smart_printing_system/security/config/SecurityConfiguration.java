@@ -80,6 +80,9 @@ public class SecurityConfiguration
                                 .requestMatchers("api/v1/printing/**")
                                 .hasAnyRole("STUDENT", "ADMIN", "SPSO")
 
+                                .requestMatchers("/file/**")
+                                .hasAnyRole("STUDENT", "ADMIN", "SPSO")
+
                                 .anyRequest()
                                 .authenticated()
                 )
