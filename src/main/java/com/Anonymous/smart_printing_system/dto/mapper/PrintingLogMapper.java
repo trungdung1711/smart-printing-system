@@ -1,7 +1,7 @@
 package com.Anonymous.smart_printing_system.dto.mapper;
 
-import com.Anonymous.smart_printing_system.dto.PrintingLogGetAllPrintingLogsDto;
-import com.Anonymous.smart_printing_system.dto.PrintingLogPrintRequestDto;
+import com.Anonymous.smart_printing_system.dto.printing.PrintingLogGetAllPrintingLogsDto;
+import com.Anonymous.smart_printing_system.dto.printing.PrintingLogPrintRequestDto;
 import com.Anonymous.smart_printing_system.model.Document;
 import com.Anonymous.smart_printing_system.model.PrintingLog;
 import org.mapstruct.*;

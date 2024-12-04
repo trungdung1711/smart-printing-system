@@ -1,8 +1,8 @@
 package com.Anonymous.smart_printing_system.service;
 
 
-import com.Anonymous.smart_printing_system.dto.PrintingLogGetAllPrintingLogsDto;
-import com.Anonymous.smart_printing_system.dto.PrintingLogPrintRequestDto;
+import com.Anonymous.smart_printing_system.dto.printing.PrintingLogGetAllPrintingLogsDto;
+import com.Anonymous.smart_printing_system.dto.printing.PrintingLogPrintRequestDto;
 import com.Anonymous.smart_printing_system.dto.mapper.PrintingLogMapper;
 import com.Anonymous.smart_printing_system.exception.PaperNotEnough;
 import com.Anonymous.smart_printing_system.exception.UserNotFoundException;
@@ -110,6 +110,15 @@ public class PrintingLogService
     {
         Pageable pageable = PageRequest.of(pageNumber.intValue(), pageSize.intValue());
         Page<PrintingLog> printingLogs = printingLogRepository.findPrintingLogsByStudentId(studentId, pageable);
+
+        return printingLogs.map(printingLogMapper::toDto1);
+    }
+
+
+    public Page<PrintingLogGetAllPrintingLogsDto> getAllPrintingLogsOfPrinter(Long printerId, Long pageNumber, Long pageSize)
+    {
+        Pageable pageable = PageRequest.of(pageNumber.intValue(), pageSize.intValue());
+        Page<PrintingLog> printingLogs = printingLogRepository.findPrintingLogsByPrinterId(printerId, pageable);
 
         return printingLogs.map(printingLogMapper::toDto1);
     }

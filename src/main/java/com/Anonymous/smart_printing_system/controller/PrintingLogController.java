@@ -1,7 +1,7 @@
 package com.Anonymous.smart_printing_system.controller;
 
-import com.Anonymous.smart_printing_system.dto.PrintingLogGetAllPrintingLogsDto;
-import com.Anonymous.smart_printing_system.dto.PrintingLogPrintRequestDto;
+import com.Anonymous.smart_printing_system.dto.printing.PrintingLogGetAllPrintingLogsDto;
+import com.Anonymous.smart_printing_system.dto.printing.PrintingLogPrintRequestDto;
 import com.Anonymous.smart_printing_system.service.PrintingLogService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -54,5 +54,19 @@ public class PrintingLogController
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(null);
+    }
+
+
+    @GetMapping("printers/{id}/logs")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SPSO')")
+    public ResponseEntity<Page<PrintingLogGetAllPrintingLogsDto>> getPrintingLogsOfPrinter(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") Long pageNumber,
+            @RequestParam(defaultValue = "10") Long pageSize
+    )
+    {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(printingLogService.getAllPrintingLogsOfStudent(id, pageNumber, pageSize));
     }
 }

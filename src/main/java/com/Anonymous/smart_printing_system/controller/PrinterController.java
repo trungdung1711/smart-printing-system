@@ -5,6 +5,7 @@ import com.Anonymous.smart_printing_system.dto.printer.PrinterAddPrinterRequestD
 import com.Anonymous.smart_printing_system.dto.printer.PrinterGetDetailedPrinterResponseDto;
 import com.Anonymous.smart_printing_system.dto.printer.PrinterGetPrintersAtCampusResponseDto;
 import com.Anonymous.smart_printing_system.dto.printer.PrinterUpdatePrinterRequestDto;
+import com.Anonymous.smart_printing_system.dto.printing.PrintingLogGetAllPrintingLogsDto;
 import com.Anonymous.smart_printing_system.service.PrinterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

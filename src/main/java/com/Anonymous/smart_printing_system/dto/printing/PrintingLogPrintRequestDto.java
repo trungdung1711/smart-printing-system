@@ -1,4 +1,4 @@
-package com.Anonymous.smart_printing_system.dto;
+package com.Anonymous.smart_printing_system.dto.printing;
 
 import com.Anonymous.smart_printing_system.model.eenum.PageType;
 import jakarta.validation.constraints.NotNull;

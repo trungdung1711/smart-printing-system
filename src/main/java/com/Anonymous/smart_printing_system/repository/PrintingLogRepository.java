@@ -21,4 +21,7 @@ public interface PrintingLogRepository extends JpaRepository<PrintingLog, Long>
 
 
     Page<PrintingLog> findPrintingLogsByStudentId(Long studentId, Pageable pageable);
+
+
+    Page<PrintingLog> findPrintingLogsByPrinterId(Long printerId, Pageable pageable);
 }

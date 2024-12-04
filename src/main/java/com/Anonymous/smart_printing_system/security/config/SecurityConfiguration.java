@@ -78,7 +78,7 @@ public class SecurityConfiguration
                                 .hasAnyRole("STUDENT", "ADMIN", "SPSO")
 
                                 .requestMatchers("api/v1/printing/**")
-                                .hasRole("STUDENT")
+                                .hasAnyRole("STUDENT", "ADMIN", "SPSO")
 
                                 .anyRequest()
                                 .authenticated()
