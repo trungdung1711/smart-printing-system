@@ -29,6 +29,10 @@ public class Student extends SystemUser
     @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<PrintingLog> printingLogs = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Set<Order> orders = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "student", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private Set<Payment> payments = new LinkedHashSet<>();
+
+    @Column(name = "student_wallet", nullable = false)
+    private Long studentWallet;
+
 }

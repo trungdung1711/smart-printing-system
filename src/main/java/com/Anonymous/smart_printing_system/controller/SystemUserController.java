@@ -38,4 +38,18 @@ public class SystemUserController
     {
         return systemUserService.getUserInformation(id);
     }
+
+    @GetMapping("spsos/get_semester_config")
+    @PreAuthorize("hasRole('SPSO')")
+    public ResponseEntity<Void> getSemesterConfig()
+    {
+        return null;
+    }
+
+    @GetMapping("spsos/set_semester_config")
+    @PreAuthorize("hasRole('SPSO')")
+    public ResponseEntity<Void> setSemesterConfig()
+    {
+        return null;
+    }
 }
