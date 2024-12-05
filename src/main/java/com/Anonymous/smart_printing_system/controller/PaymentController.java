@@ -7,10 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 
 @RestController
@@ -47,11 +50,19 @@ public class PaymentController {
     @GetMapping("history/student_buy_pages")
     @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<StudentGetPaymentsHistoryResponseDto>
-    studentGetBuyPagesHistory(@RequestBody GetPaymentHistoryRequestDto paymentBuyPagesRequestDto,
-                              @RequestParam(defaultValue = "0") Long pageNumber,
-                              @RequestParam(defaultValue = "10") Long pageSize) {
+    studentGetBuyPagesHistory(
+            @RequestParam(defaultValue = "0") Long pageNumber,
+            @RequestParam(defaultValue = "10") Long pageSize,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startDate,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDate
+    ) {
         Pageable pageable = PageRequest.of(pageNumber.intValue(), pageSize.intValue());
-        return ResponseEntity.status(HttpStatus.OK).body(paymentService.studentGetPaymentHistory(paymentBuyPagesRequestDto, pageable));
+
+        // Tạo DTO từ tham số request
+        GetPaymentHistoryRequestDto paymentBuyPagesRequestDto = new GetPaymentHistoryRequestDto(startDate, endDate);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(paymentService.studentGetPaymentHistory(paymentBuyPagesRequestDto, pageable));
     }
 
 
@@ -71,6 +82,12 @@ public class PaymentController {
                                                      @RequestParam(defaultValue = "10") Long pageSize) {
         Pageable pageable = PageRequest.of(pageNumber.intValue(), pageSize.intValue());
         return ResponseEntity.status(HttpStatus.OK).body(paymentService.adminGetAllPaymentHistory(paymentBuyPagesRequestDto, pageable));
+    }
+
+    @GetMapping("student/num_pages")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<StudentGetNumPagesDto> getNumPages() {
+        return ResponseEntity.status(HttpStatus.OK).body(paymentService.getNumPages());
     }
 
 }

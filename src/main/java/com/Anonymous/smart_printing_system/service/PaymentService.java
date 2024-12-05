@@ -178,4 +178,9 @@ public class PaymentService {
         }
     }
 
+    public StudentGetNumPagesDto getNumPages() {
+        Student student = studentService.getCurrentStudentLogIn();
+        return new StudentGetNumPagesDto(student.getStudentNumRemained());
+    }
+
 }
