@@ -86,6 +86,9 @@ public class SecurityConfiguration
                                 .requestMatchers("/api/v1/reports")
                                 .hasAnyRole( "ADMIN", "SPSO")
 
+                                .requestMatchers("/api/v1/configs/**")
+                                .hasAnyRole("SPSO")
+
                                 .anyRequest()
                                 .authenticated()
                 )

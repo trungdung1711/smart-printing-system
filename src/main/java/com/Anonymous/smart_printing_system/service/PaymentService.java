@@ -75,6 +75,7 @@ public class PaymentService {
         payment.setPayDate(java.time.LocalDateTime.now());
         payment.setNumberOfPages(paymentBuyPagesRequestDto.getNumOfPages());
         Student student = studentService.getCurrentStudentLogIn();
+
         try {
             ResponseEntity<PaymentBuyPagesResponseDto> response;
 
@@ -88,6 +89,9 @@ public class PaymentService {
             payment.setStudent(student);
             payment.setStatus(PaymentStatus.COMPLETED);
             student.getPayments().add(payment);
+            student.setStudentNumRemained
+                    (student.getStudentNumRemained()
+                            + paymentBuyPagesRequestDto.getNumOfPages());
             studentRepository.save(student);
             return paymentBuyPagesResponseDto;
         }
