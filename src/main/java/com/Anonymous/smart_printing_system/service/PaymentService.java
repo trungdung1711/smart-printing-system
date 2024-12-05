@@ -11,23 +11,13 @@ import com.Anonymous.smart_printing_system.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -110,8 +100,8 @@ public class PaymentService {
         }
     }
 
-    public StudentGetPaymentsHistoryResponseDto StudentGetPaymentHistory(
-            StudentGetPaymentHistoryRequestDto studentGetPaymentHistoryRequestDto,
+    public StudentGetPaymentsHistoryResponseDto studentGetPaymentHistory(
+            GetPaymentHistoryRequestDto request,
             Pageable pageable
     ) {
         try {
@@ -122,8 +112,8 @@ public class PaymentService {
             }
 
             long studentId = student.getStudentId();
-            LocalDateTime startDate = studentGetPaymentHistoryRequestDto.getStartDate();
-            LocalDateTime endDate = studentGetPaymentHistoryRequestDto.getEndDate();
+            LocalDateTime startDate = request.getStartDate();
+            LocalDateTime endDate = request.getEndDate();
 
             Page<Payment> payments = paymentRepository.findPaymentsByStudentIdAndDateRange(studentId, startDate, endDate, pageable);
 
@@ -146,4 +136,35 @@ public class PaymentService {
             return new StudentGetPaymentsHistoryResponseDto(null, 0, 0, 0, e.getMessage());
         }
     }
+
+    public AdminGetAllPaymentResponseDto adminGetAllPaymentHistory(
+            GetPaymentHistoryRequestDto request, Pageable pageable
+    ) {
+
+        try {
+
+            LocalDateTime startDate = request.getStartDate();
+            LocalDateTime endDate = request.getEndDate();
+
+            Page<Payment> payments = paymentRepository.findPaymentsByDateRange(startDate, endDate, pageable);
+
+            List<PaymentDto> paymentDtoList = payments.getContent().stream()
+                    .map(payment -> new PaymentDto(
+                            payment.getPayCost(),
+                            payment.getPayDate(),
+                            payment.getStatus(),
+                            payment.getNumberOfPages(),
+                            payment.getStudent().getStudentId()
+                    ))
+                    .collect(Collectors.toList());
+
+            AdminGetAllPaymentResponseDto response = new AdminGetAllPaymentResponseDto(paymentDtoList,
+                    pageable.getPageNumber(), paymentDtoList.toArray().length, payments.getTotalPages(), "Get payment history successfully!");
+            return response;
+        }
+        catch (Exception e) {
+            return new AdminGetAllPaymentResponseDto(null, 0, 0, 0, e.getMessage());
+        }
+    }
+
 }

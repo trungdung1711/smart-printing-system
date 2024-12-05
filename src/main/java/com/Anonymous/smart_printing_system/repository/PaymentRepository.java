@@ -14,11 +14,15 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
-    @Query("SELECT p FROM Payment p WHERE p.student.studentId = :studentId AND p.payDate BETWEEN :startDate AND :endDate")
+    @Query("SELECT p FROM Payment p WHERE p.student.studentId = :studentId AND p.payDate BETWEEN :startDate AND :endDate ORDER BY p.payDate ASC")
     Page<Payment> findPaymentsByStudentIdAndDateRange(
             Long studentId,
             LocalDateTime startDate,
             LocalDateTime endDate,
             Pageable pageable
     );
+
+    @Query("SELECT p FROM Payment p WHERE p.payDate BETWEEN :startDate AND :endDate ORDER BY p.payDate ASC")
+    Page<Payment> findPaymentsByDateRange(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+
 }
