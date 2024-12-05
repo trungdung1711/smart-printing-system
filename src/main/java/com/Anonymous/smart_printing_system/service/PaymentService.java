@@ -1,11 +1,12 @@
 package com.Anonymous.smart_printing_system.service;
 
 import com.Anonymous.smart_printing_system.dto.payment.*;
+import com.Anonymous.smart_printing_system.model.PagePrice;
 import com.Anonymous.smart_printing_system.model.Payment;
 import com.Anonymous.smart_printing_system.model.Student;
 import com.Anonymous.smart_printing_system.model.eenum.PageType;
 import com.Anonymous.smart_printing_system.model.eenum.PaymentStatus;
-import com.Anonymous.smart_printing_system.repository.PageConfigRepository;
+import com.Anonymous.smart_printing_system.repository.PagePriceRepository;
 import com.Anonymous.smart_printing_system.repository.PaymentRepository;
 import com.Anonymous.smart_printing_system.repository.StudentRepository;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -27,7 +30,7 @@ import java.util.stream.Collectors;
 public class PaymentService {
 
     @Autowired
-    private final PageConfigRepository pageConfigRepository;
+    private final PagePriceRepository pagePriceRepository;
     @Autowired
     private StudentRepository studentRepository;
     @Autowired
@@ -35,17 +38,24 @@ public class PaymentService {
     @Autowired
     private PaymentRepository paymentRepository;
 
-    private long calculatePrice(PageType pageType, long numberOfPages) {
+    private long calculatePrice(long numberOfPages) {
         long finalPrice = 0;
 
-        // Get price of pageType
-        long pagePrice = pageConfigRepository.findByPageType(pageType).getPrice();
+        ArrayList<PagePrice> pagePrices = pagePriceRepository.findAllByOrderByNumberOfPagesAsc();
 
-        if (pagePrice == 0) {
-            throw new RuntimeException("Page price not found");
+        int pagePricesSize = pagePrices.toArray().length;
+
+        int highestPriceIndex = 0;
+        for (int i = pagePricesSize - 1; i > 0 ; i--) {
+            if (numberOfPages > pagePrices.get(i).getNumberOfPages()) {
+                highestPriceIndex = i;
+                break;
+            }
         }
-
-        finalPrice = pagePrice * numberOfPages;
+        finalPrice += pagePrices.get(highestPriceIndex).getPrice() * (numberOfPages - pagePrices.get(highestPriceIndex).getNumberOfPages());
+        for (int i = highestPriceIndex - 1; i >= 0; i--) {
+            finalPrice += pagePrices.get(i).getPrice() * (pagePrices.get(i + 1).getNumberOfPages() - pagePrices.get(i).getNumberOfPages());
+        }
 
         return finalPrice;
     }
@@ -69,7 +79,7 @@ public class PaymentService {
     public PaymentBuyPagesResponseDto studentBuyPagesRequest(PaymentBuyPagesRequestDto paymentBuyPagesRequestDto) {
         // Kiểm tra thông tin yêu cầu mua trang của sinh viên
         Payment payment = new Payment();
-        long finalPrice = calculatePrice(paymentBuyPagesRequestDto.getPageType(), paymentBuyPagesRequestDto.getNumOfPages());
+        long finalPrice = calculatePrice(paymentBuyPagesRequestDto.getNumOfPages());
 
         payment.setPayCost((double) finalPrice);
         payment.setPayDate(java.time.LocalDateTime.now());
@@ -88,6 +98,7 @@ public class PaymentService {
             payment.setStudent(student);
             payment.setStatus(PaymentStatus.COMPLETED);
             student.getPayments().add(payment);
+            student.setStudentNumRemained(student.getStudentNumRemained() + paymentBuyPagesRequestDto.getNumOfPages());
             studentRepository.save(student);
             return paymentBuyPagesResponseDto;
         }

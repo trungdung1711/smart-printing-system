@@ -1,6 +1,5 @@
 package com.Anonymous.smart_printing_system.model;
 
-import com.Anonymous.smart_printing_system.model.eenum.PageType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,13 +9,13 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "page_config")
-public class PageConfig {
+@Table(name = "page_price")
+public class PagePrice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    
+
     @Column(name = "num_Of_Pages", nullable = false, unique = true)
     private Long numberOfPages;
 

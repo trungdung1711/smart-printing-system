@@ -4,6 +4,7 @@ import com.Anonymous.smart_printing_system.dto.payment.*;
 import com.Anonymous.smart_printing_system.service.PaymentService;
 import com.Anonymous.smart_printing_system.service.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 
 public class PaymentController {
+    @Autowired
     private final PaymentService paymentService;
+
+    @Autowired
     private final StudentService studentService;
 
     @PostMapping("buy_pages")
