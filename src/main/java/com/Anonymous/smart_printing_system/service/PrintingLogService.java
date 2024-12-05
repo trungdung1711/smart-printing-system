@@ -14,6 +14,7 @@ import com.Anonymous.smart_printing_system.repository.PrinterRepository;
 import com.Anonymous.smart_printing_system.repository.PrintingLogRepository;
 import com.Anonymous.smart_printing_system.repository.SystemUserRepository;
 import com.Anonymous.smart_printing_system.security.model.SystemUserDetails;
+import com.Anonymous.smart_printing_system.util.SystemUserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,6 +37,7 @@ public class PrintingLogService
     private final PrinterRepository printerRepository;
     private final FileService fileService;
     private final SystemUserRepository systemUserRepository;
+    private final SystemUserUtil systemUserUtil;
 
 
     public void createPrintingLog(PrintingLogPrintRequestDto printingLogPrintRequestDto, MultipartFile file) throws IOException
@@ -112,10 +114,10 @@ public class PrintingLogService
     }
 
 
-    public Page<PrintingLogGetAllPrintingLogsDto> getAllPrintingLogsOfStudent(Long studentId, Long pageNumber, Long pageSize)
+    public Page<PrintingLogGetAllPrintingLogsDto> getAllPrintingLogsOfStudent(Long pageNumber, Long pageSize)
     {
         Pageable pageable = PageRequest.of(pageNumber.intValue(), pageSize.intValue());
-        Page<PrintingLog> printingLogs = printingLogRepository.findPrintingLogsByStudentId(studentId, pageable);
+        Page<PrintingLog> printingLogs = printingLogRepository.findPrintingLogsByStudentId(systemUserUtil.getAuthenticatedUserId(), pageable);
 
         return printingLogs.map(printingLogMapper::toDto1);
     }

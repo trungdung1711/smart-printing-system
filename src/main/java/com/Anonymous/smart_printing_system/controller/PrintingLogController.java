@@ -26,17 +26,16 @@ public class PrintingLogController
     private final PrintingLogService printingLogService;
 
 
-    @GetMapping("{id}/logs")
+    @GetMapping("logs")
     @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<Page<PrintingLogGetAllPrintingLogsDto>> getPrintingLogsOfStudent(
-            @PathVariable Long id,
             @RequestParam(defaultValue = "0") Long pageNumber,
             @RequestParam(defaultValue = "10") Long pageSize
     )
     {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(printingLogService.getAllPrintingLogsOfStudent(id, pageNumber, pageSize));
+                .body(printingLogService.getAllPrintingLogsOfStudent(pageNumber, pageSize));
     }
 
 
@@ -67,6 +66,6 @@ public class PrintingLogController
     {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(printingLogService.getAllPrintingLogsOfStudent(id, pageNumber, pageSize));
+                .body(printingLogService.getAllPrintingLogsOfPrinter(id, pageNumber, pageSize));
     }
 }
