@@ -83,6 +83,9 @@ public class SecurityConfiguration
                                 .requestMatchers("/file/**")
                                 .permitAll()
 
+                                .requestMatchers("/api/v1/reports")
+                                .hasAnyRole( "ADMIN", "SPSO")
+
                                 .anyRequest()
                                 .authenticated()
                 )

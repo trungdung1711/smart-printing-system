@@ -25,14 +25,14 @@ public class PaymentController {
     private final StudentService studentService;
 
     @PostMapping("buy_pages")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<PaymentBuyPagesResponseDto> studentBuyPages(@RequestBody PaymentBuyPagesRequestDto paymentBuyPagesRequestDto) {
         PaymentBuyPagesResponseDto response = paymentService.studentBuyPagesRequest(paymentBuyPagesRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping("add_wallet")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<PaymentAddWalletResponseDto> studentAddWallet(@RequestParam(defaultValue = "0") long amount) {
         try {
             PaymentAddWalletResponseDto response = paymentService.studentAddWallet(amount);
@@ -43,7 +43,7 @@ public class PaymentController {
     }
 
     @GetMapping("history/student_buy_pages")
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<StudentGetPaymentsHistoryResponseDto>
     studentGetBuyPagesHistory(@RequestBody StudentGetPaymentHistoryRequestDto paymentBuyPagesRequestDto,
                               @RequestParam(defaultValue = "0") Long pageNumber,
