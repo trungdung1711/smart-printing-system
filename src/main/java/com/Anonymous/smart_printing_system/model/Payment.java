@@ -30,8 +30,11 @@ public class Payment {
     @Column(name = "status", nullable = false)
     private PaymentStatus status;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    @Column(name = "number_of_pages", nullable = false)
+    private Long numberOfPages;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id", nullable = false)
+    private Student student;
 
 }

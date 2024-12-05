@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "configuration")
-public class SemesterPageConfiguration
+public class SemesterConfiguration
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,4 +36,6 @@ public class SemesterPageConfiguration
 
     @Column(name = "semester_name", nullable = false, unique = true)
     private String semesterName;
+
+
 }
