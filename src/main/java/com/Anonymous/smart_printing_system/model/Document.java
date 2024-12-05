@@ -44,4 +44,10 @@ public class Document
     @OneToOne(optional = false)
     @JoinColumn(name = "printing_log_id", nullable = false)
     private PrintingLog printingLog;
+
+    @Column(name = "start", nullable = false)
+    private Long start;
+
+    @Column(name = "end", nullable = false)
+    private Long end;
 }

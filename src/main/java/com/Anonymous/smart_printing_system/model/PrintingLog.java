@@ -25,13 +25,16 @@ public class PrintingLog {
     @Column(name = "log_desc")
     private String logDescription;
 
+    /*
+    Time to get the document
+     */
     @Column(name = "log_date", nullable = false)
     private LocalDateTime logDate;
 
-    @Column(name = "log_start_time", nullable = false)
+    @Column(name = "log_start_time")
     private LocalDateTime logStartTime;
 
-    @Column(name = "log_end_time", nullable = false)
+    @Column(name = "log_end_time")
     private LocalDateTime logEndTime;
 
     @Column(name = "page_per_sheet", nullable = false)
