@@ -138,7 +138,7 @@ public class PaymentService {
 
             StudentGetPaymentsHistoryResponseDto response = new
                     StudentGetPaymentsHistoryResponseDto(studentPaymentDtoList,
-                    pageable.getPageNumber(), pageable.getPageSize(), payments.getTotalPages(), "Get payment history successfully!");
+                    pageable.getPageNumber(), studentPaymentDtoList.toArray().length, payments.getTotalPages(), "Get payment history successfully!");
 
             return response;
         }

@@ -10,8 +10,8 @@ import java.util.List;
 @Value
 public class StudentGetPaymentsHistoryResponseDto {
     private List<StudentPaymentDto> studentPaymentDtoList;
-    private Integer pageNumStart;
-    private Integer pageNumEnd;
+    private Integer pageNumCurrent;
+    private Integer pageSize;
     private Integer totalPages;
     private String message;
 }
