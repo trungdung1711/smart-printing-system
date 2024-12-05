@@ -31,6 +31,7 @@ public class PaymentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+
     @PostMapping("add_wallet")
     @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<PaymentAddWalletResponseDto> studentAddWallet(@RequestParam(defaultValue = "0") long amount) {
@@ -42,6 +43,7 @@ public class PaymentController {
         }
     }
 
+
     @GetMapping("history/student_buy_pages")
     @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<StudentGetPaymentsHistoryResponseDto>
@@ -51,6 +53,7 @@ public class PaymentController {
         Pageable pageable = PageRequest.of(pageNumber.intValue(), pageSize.intValue());
         return ResponseEntity.status(HttpStatus.OK).body(paymentService.studentGetPaymentHistory(paymentBuyPagesRequestDto, pageable));
     }
+
 
     @GetMapping("history/spso_buy_pages")
     @PreAuthorize("hasRole('SPSO')")

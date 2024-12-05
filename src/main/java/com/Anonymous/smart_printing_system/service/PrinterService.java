@@ -66,4 +66,13 @@ public class PrinterService
         Printer printer = printerRepository.findById(id).get();
         printerMapper.partialUpdate(printerUpdatePrinterRequestDto, printer);
     }
+
+
+    public void deletePrinter(Long id)
+    {
+        Printer printer = printerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Printer not found with id: " + id));
+
+        printerRepository.delete(printer);
+    }
 }

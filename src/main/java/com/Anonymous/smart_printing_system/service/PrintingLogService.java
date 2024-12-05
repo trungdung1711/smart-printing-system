@@ -59,7 +59,14 @@ public class PrintingLogService
         Student student = (Student)systemUser;
         Long usedPage = student.getUsedPage();
         Long remainedPage = student.getStudentNumRemained();
-        long requiredPage = (printingLogPrintRequestDto.getDocument().getEnd() - printingLogPrintRequestDto.getDocument().getStart() + 1) * printingLogPrintRequestDto.getNumberOfCopy();
+        long requiredPage;
+        if("A3".equals(printingLogPrintRequestDto.getDocument().getPageType())){
+            requiredPage=(printingLogPrintRequestDto.getDocument().getEnd() - printingLogPrintRequestDto.getDocument().getStart() + 1)
+                    * printingLogPrintRequestDto.getNumberOfCopy() * 2;
+        }
+        else {
+            requiredPage = (printingLogPrintRequestDto.getDocument().getEnd() - printingLogPrintRequestDto.getDocument().getStart() + 1) * printingLogPrintRequestDto.getNumberOfCopy();
+        }
         if (requiredPage > student.getStudentNumRemained())
         {
             throw new PaperNotEnoughException();

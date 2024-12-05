@@ -68,4 +68,13 @@ public class PrinterController {
                 .status(HttpStatus.OK)
                 .body(null);
     }
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('SPSO')")
+    public ResponseEntity<Void> deletePrinter(@PathVariable Long id)
+    {
+        printerService.deletePrinter(id);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT) // Trả về mã 204 - Không có nội dung
+                .build();
+    }
 }
