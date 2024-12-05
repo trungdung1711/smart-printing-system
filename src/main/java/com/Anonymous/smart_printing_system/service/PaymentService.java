@@ -1,16 +1,18 @@
 package com.Anonymous.smart_printing_system.service;
 
-import com.Anonymous.smart_printing_system.dto.payment.PaymentAddWalletResponseDto;
-import com.Anonymous.smart_printing_system.dto.payment.PaymentBuyPagesRequestDto;
-import com.Anonymous.smart_printing_system.dto.payment.PaymentBuyPagesResponseDto;
+import com.Anonymous.smart_printing_system.dto.payment.*;
 import com.Anonymous.smart_printing_system.model.Payment;
 import com.Anonymous.smart_printing_system.model.Student;
 import com.Anonymous.smart_printing_system.model.eenum.PageType;
 import com.Anonymous.smart_printing_system.model.eenum.PaymentStatus;
 import com.Anonymous.smart_printing_system.repository.PageConfigRepository;
+import com.Anonymous.smart_printing_system.repository.PaymentRepository;
 import com.Anonymous.smart_printing_system.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +23,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Transactional
@@ -34,6 +42,8 @@ public class PaymentService {
     private StudentRepository studentRepository;
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     private long calculatePrice(PageType pageType, long numberOfPages) {
         long finalPrice = 0;
@@ -97,6 +107,43 @@ public class PaymentService {
             student.getPayments().add(payment);
             studentRepository.save(student);
             return new PaymentBuyPagesResponseDto(e.getMessage());
+        }
+    }
+
+    public StudentGetPaymentsHistoryResponseDto StudentGetPaymentHistory(
+            StudentGetPaymentHistoryRequestDto studentGetPaymentHistoryRequestDto,
+            Pageable pageable
+    ) {
+        try {
+            Student student = studentService.getCurrentStudentLogIn();
+
+            if (student == null) {
+                throw new RuntimeException("Student not found!");
+            }
+
+            long studentId = student.getStudentId();
+            LocalDateTime startDate = studentGetPaymentHistoryRequestDto.getStartDate();
+            LocalDateTime endDate = studentGetPaymentHistoryRequestDto.getEndDate();
+
+            Page<Payment> payments = paymentRepository.findPaymentsByStudentIdAndDateRange(studentId, startDate, endDate, pageable);
+
+            List<StudentPaymentDto> studentPaymentDtoList = payments.getContent().stream()
+                    .map(payment -> new StudentPaymentDto(
+                            payment.getPayCost(),
+                            payment.getPayDate(),
+                            payment.getStatus(),
+                            payment.getNumberOfPages()
+                    ))
+                    .collect(Collectors.toList());
+
+            StudentGetPaymentsHistoryResponseDto response = new
+                    StudentGetPaymentsHistoryResponseDto(studentPaymentDtoList,
+                    pageable.getPageNumber(), pageable.getPageSize(), payments.getTotalPages(), "Get payment history successfully!");
+
+            return response;
+        }
+        catch (Exception e) {
+            return new StudentGetPaymentsHistoryResponseDto(null, 0, 0, 0, e.getMessage());
         }
     }
 }
