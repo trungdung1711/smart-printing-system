@@ -20,6 +20,9 @@ public interface PrintingLogRepository extends JpaRepository<PrintingLog, Long>
     List<PrintingLog> findPrintingLogsByLogStatus(PrintingLogEnum status);
 
 
+    @Query("SELECT p " +
+            "FROM PrintingLog p " +
+            "ORDER BY p.id DESC")
     Page<PrintingLog> findPrintingLogsByStudentId(Long studentId, Pageable pageable);
 
 

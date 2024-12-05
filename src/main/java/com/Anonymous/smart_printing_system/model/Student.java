@@ -17,6 +17,7 @@ import java.util.Set;
 @DiscriminatorValue("STUDENT")
 public class Student extends SystemUser 
 {
+    // Calculate based on A4
     @Column(name = "student_num_remained", nullable = false)
     private Long studentNumRemained;
 

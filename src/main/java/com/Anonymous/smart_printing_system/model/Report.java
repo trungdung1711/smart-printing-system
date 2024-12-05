@@ -32,4 +32,7 @@ public class Report {
     @Enumerated
     @Column(name = "report_type", nullable = false)
     private ReportType reportType;
+
+    @Column(name = "url", nullable = false)
+    private String url;
 }
