@@ -189,7 +189,7 @@ public class PaymentService {
         Long wallet = student.getStudentWallet();
         Long studentId = student.getStudentId();
 
-        return new StudentGetWalletDto(wallet, studentId);
+        return new StudentGetWalletDto(studentId, wallet);
     }
 
 }
