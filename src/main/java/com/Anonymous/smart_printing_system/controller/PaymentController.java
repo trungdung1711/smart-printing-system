@@ -46,6 +46,12 @@ public class PaymentController {
         }
     }
 
+    @GetMapping("get_wallet")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<StudentGetWalletDto> studentGetWallet() {
+        return ResponseEntity.status(HttpStatus.OK).body(paymentService.studentGetWallet());
+    }
+
 
     @GetMapping("history/student_buy_pages")
     @PreAuthorize("hasRole('STUDENT')")

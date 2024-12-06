@@ -183,4 +183,13 @@ public class PaymentService {
         return new StudentGetNumPagesDto(student.getStudentNumRemained());
     }
 
+    public StudentGetWalletDto studentGetWallet() {
+        Student student = studentService.getCurrentStudentLogIn();
+
+        Long wallet = student.getStudentWallet();
+        Long studentId = student.getStudentId();
+
+        return new StudentGetWalletDto(wallet, studentId);
+    }
+
 }
