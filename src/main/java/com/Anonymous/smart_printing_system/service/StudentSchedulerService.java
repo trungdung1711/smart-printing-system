@@ -23,7 +23,7 @@ public class StudentSchedulerService {
      * Scheduled task to update `studentNumRemained` every 4 months.
      */
     //@Scheduled(cron = "0 0 0 1 */4 *") // Runs at midnight on the 1st day every 4th month
-    @Scheduled(fixedRate = 60 * 1000)
+    @Scheduled(fixedRate = 15 * 60 * 1000)
     public void addDefaultPagesToStudents()
     {
         SemesterConfiguration semesterConfiguration = semesterConfigurationRepository.findById(1L).orElse(null);
