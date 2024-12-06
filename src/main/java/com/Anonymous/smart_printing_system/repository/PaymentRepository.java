@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.time.LocalDateTime;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
-    @Query("SELECT p FROM Payment p WHERE p.student.studentId = :studentId AND p.payDate BETWEEN :startDate AND :endDate ORDER BY p.payDate ASC")
+    @Query("SELECT p FROM Payment p WHERE p.student.studentId = :studentId AND p.payDate BETWEEN :startDate AND :endDate ORDER BY p.payDate DESC")
     Page<Payment> findPaymentsByStudentIdAndDateRange(
             Long studentId,
             LocalDateTime startDate,
@@ -18,7 +18,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
             Pageable pageable
     );
 
-    @Query("SELECT p FROM Payment p WHERE p.payDate BETWEEN :startDate AND :endDate ORDER BY p.payDate ASC")
+    @Query("SELECT p FROM Payment p WHERE p.payDate BETWEEN :startDate AND :endDate ORDER BY p.payDate DESC")
     Page<Payment> findPaymentsByDateRange(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
 
 }
